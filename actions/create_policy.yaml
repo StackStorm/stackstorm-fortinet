@@ -1,0 +1,14 @@
+---
+name: create_policy
+pack: fortinet
+runner_type: "mistral-v2"
+description: Add thread IP to policy table
+enabled: true
+entry_point: workflows/create_policy.meta.yaml
+
+parameters:
+    threat_ip:
+        type: "string" 
+        description: "Threat IP address that is going to be blocked"
+        required: True
+        

@@ -1,0 +1,11 @@
+name: create_fortinet_policy
+pack: fortinet
+runner_type: python-script
+description: "Create Fortinet Policy"
+enabled: true
+entry_point: "create_fortinet_policy.py"
+parameters:
+    threat_ip:
+        type: "string" 
+        description: "Threat IP address that is going to be blocked"
+        required: True
