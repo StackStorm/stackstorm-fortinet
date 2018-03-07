@@ -76,7 +76,8 @@ class FortinetApi(object):
         groups = None
         session = self.get_session_id()
         id = self.get_random_id()
-        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp"}], "session": session, "id": id, "method": "get"}
+        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp"}],
+                "session": session, "id": id, "method": "get"}
         content = self.post(data)
         if content is not None and 'data' in content:
             j = json.loads(content)
@@ -88,13 +89,19 @@ class FortinetApi(object):
     def add_address_group(self, group, members):
         session = self.get_session_id()
         id = self.get_random_id()
-        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp", "data": [{"color": 13, "visbility": "enable", "comment": "", "name": group, "member": members}]}], "session": session, "id": id, "method": "add"}
+        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp",
+                            "data": [{"color": 13, "visbility": "enable", "comment": "",
+                                      "name": group, "member": members}]}],
+                "session": session, "id": id, "method": "add"}
         return self.post(data)
 
     def update_group(self, group, members):
         session = self.get_session_id()
         id = self.get_random_id()
-        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp", "data": [{"color": 13, "visbility": "enable", "comment": "", "name": group, "member": members}]}], "session": session, "id": id, "method": "update"}
+        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp",
+                            "data": [{"color": 13, "visbility": "enable", "comment": "",
+                                      "name": group, "member": members}]}], "session": session,
+                "id": id, "method": "update"}
         return self.post(data)
 
     def get_policy_packages(self):
@@ -125,20 +132,35 @@ class FortinetApi(object):
             policies = data['data']
         return policies
 
-    def add_deny_sip_policy(self, package, name, srcAddressGroup, srcInterface=['any'], dstAddressGroup=['all'], dstInterface=['any'], comments='json web service rule'):
-        return self.add_deny_policy(package, name, [srcAddressGroup], srcInterface, dstAddressGroup, dstInterface, comments)
+    def add_deny_sip_policy(self, package, name, srcAddressGroup, srcInterface=['any'],
+                            dstAddressGroup=['all'], dstInterface=['any'],
+                            comments='json web service rule'):
+        return self.add_deny_policy(package, name, [srcAddressGroup], srcInterface,
+                                    dstAddressGroup, dstInterface, comments)
 
-    def add_deny_dip_policy(self, package, name, dstAddressGroup, dstInterface=['any'], srcAddressGroup=['all'], srcInterface=['any'], comments='json web service rule'):
-        return self.add_deny_policy(package, name, srcAddressGroup, srcInterface, [dstAddressGroup], dstInterface, comments)
+    def add_deny_dip_policy(self, package, name, dstAddressGroup, dstInterface=['any'],
+                            srcAddressGroup=['all'], srcInterface=['any'],
+                            comments='json web service rule'):
+        return self.add_deny_policy(package, name, srcAddressGroup, srcInterface,
+                                    [dstAddressGroup], dstInterface, comments)
 
-    def add_deny_policy(self, package, name, srcAddressGroup, srcInterface, dstAddressGroup, dstInterface, comments):
+    def add_deny_policy(self, package, name, srcAddressGroup, srcInterface, dstAddressGroup,
+                        dstInterface, comments):
         session = self.get_session_id()
         id = self.get_random_id()
         url = 'pm/config/adom/root/pkg/{0}/firewall/policy'.format(package)
         data = {"params": [{"url": url,
-                            "data": [{"action": "deny", "comments": comments, "dstaddr": dstAddressGroup, "dstintf": dstInterface,
-                                      "global-label": name, "ippool": "enable", "logtraffic": "disable", "nat": "disable",
-                                      "schedule": ["always"], "service": ["ALL"], "srcaddr": srcAddressGroup, "srcintf": srcInterface,
+                            "data": [{"action": "deny", "comments": comments,
+                                      "dstaddr": dstAddressGroup,
+                                      "dstintf": dstInterface,
+                                      "global-label": name,
+                                      "ippool": "enable",
+                                      "logtraffic": "disable",
+                                      "nat": "disable",
+                                      "schedule": ["always"],
+                                      "service": ["ALL"],
+                                      "srcaddr": srcAddressGroup,
+                                      "srcintf": srcInterface,
                                       "status": "enable"}]}],
                 "session": session, "id": id, "method": "add"}
         return self.post(data)
@@ -147,7 +169,8 @@ class FortinetApi(object):
         status = None
         if self.session is not None:
             id = self.get_random_id()
-            data = {"verbose": 1, "params": [{"url": "sys/logout"}], "session": self.session, "id": id, "method": "exec"}
+            data = {"verbose": 1, "params": [{"url": "sys/logout"}], "session": self.session,
+                    "id": id, "method": "exec"}
             status = self.post(data)
         return status
 
@@ -257,7 +280,8 @@ class FortinetApi(object):
                             print 'Creating address object for: {0}'.format(placeholder)
                             self.add_address(placeholder)
 
-                        print 'Removing threat: {0} from group: {1}, adding: {2} to prevent an error'.format(threat, group, placeholder)
+                        print 'Removing threat: {0} from group: {1}, adding: {2} to prevent an ' \
+                              'error'.format(threat, group, placeholder)
                         status = self.update_group(group, [placeholder])
                         self.delete_address(threat)
                 else:
@@ -276,8 +300,8 @@ if __name__ == "__main__":
     password = ''
     threat = '192.168.10.5'
     api = FortinetApi(fortimanager, username, password)
-    #status = api.add_threat(threat)
-    #print status
-    #status = api.remove_threat(threat)
-    #print status
+    status = api.add_threat(threat)
+    print status
+    status = api.remove_threat(threat)
+    print status
     api.logout()
