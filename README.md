@@ -49,6 +49,8 @@ The following actions are supported:
 * ``get_firewall_policy``
 * ``move_firewall_policy``
 * ``update_firewall_policy``
+* ``create_fortinet_policy``
+* ``delete_fortinet_policy``
  
 ### Address Object:
 * ``create_address_object``

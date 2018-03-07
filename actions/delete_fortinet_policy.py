@@ -11,5 +11,5 @@ class DeleteAddressGroup(FortinetBaseAction):
             result = json.loads(status)
             data = result['result'][0]
             if data['status']['code'] == 0:
-                return (True, status)
-        return (False, status)
+                return True, status
+        return False, status

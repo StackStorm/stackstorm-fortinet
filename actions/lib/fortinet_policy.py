@@ -3,6 +3,7 @@ import random
 import requests
 import urllib3
 
+
 class FortinetApi(object):
     def __init__(self, fortinet, username, password):
         self.fortinet = fortinet
@@ -13,9 +14,12 @@ class FortinetApi(object):
     def get_session_id(self):
         if self.session is None:
             id = self.get_random_id()
-            data = {"params": [{"url": "sys/login/user", "data": [{"user": self.username, "passwd": self.password}]}], "session": 1, "id": id, "method": "exec"}
+            data = {"params": [{"url": "sys/login/user",
+                                "data": [{"user": self.username,
+                                          "passwd": self.password}]}],
+                    "session": 1, "id": id, "method": "exec"}
             content = self.post(data)
-            if content != None and 'session' in content:
+            if content is not None and 'session' in content:
                 response = json.loads(content)
                 self.session = response['session']
         return self.session
@@ -24,7 +28,8 @@ class FortinetApi(object):
         devices = None
         session = self.get_session_id()
         id = self.get_random_id()
-        data = {"params": [{"url": "dvmdb/device"}], "session": session, "id": id, "method": "get"}
+        data = {"params": [{"url": "dvmdb/device"}],
+                "session": session, "id": id, "method": "get"}
         content = self.post(data)
         if content is not None and 'data' in content:
             j = json.loads(content)
@@ -37,7 +42,9 @@ class FortinetApi(object):
         addresses = None
         session = self.get_session_id()
         id = self.get_random_id()
-        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/address"}], "session": session, "id": id, "method": "get"}
+        data = \
+            {"params": [{"url": "pm/config/adom/root/obj/firewall/address"}],
+                "session": session, "id": id, "method": "get"}
         content = self.post(data)
         if content is not None and 'data' in content:
             j = json.loads(content)
@@ -49,14 +56,20 @@ class FortinetApi(object):
     def add_address(self, ipAddress):
         session = self.get_session_id()
         id = self.get_random_id()
-        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/address", "data": [{"color": 13, "name": ipAddress, "type": 0, "associated-interface": "any", "subnet": [ipAddress, "255.255.255.255"]}]}], "session": session, "id": id, "method": "add"}
+        data = {"params": [{"url": "pm/config/adom/root/obj/firewall/address",
+                            "data": [{"color": 13, "name": ipAddress,
+                                      "type": 0, "associated-interface": "any",
+                                      "subnet": [ipAddress, "255.255.255.255"]
+                                      }]}], "session": session, "id": id,
+                "method": "add"}
         return self.post(data)
 
     def delete_address(self, ipAddress):
         session = self.get_session_id()
         id = self.get_random_id()
         url = 'pm/config/adom/root/obj/firewall/address/{0}'.format(ipAddress)
-        data = {"params":[{"url": url}], "session": session, "id": id, "method": "delete"}
+        data = {"params": [{"url": url}], "session": session,
+                "id": id, "method": "delete"}
         return self.post(data)
 
     def get_address_groups(self):
@@ -253,6 +266,7 @@ class FortinetApi(object):
                     status = self.update_group(group, members)
                     self.delete_address(threat)
         return status
+
 
 urllib3.disable_warnings()
 
