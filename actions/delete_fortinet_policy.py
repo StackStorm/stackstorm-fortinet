@@ -5,7 +5,7 @@ from lib.action import FortinetBaseAction
 
 class DeleteAddressGroup(FortinetBaseAction):
     def run(self, threat_ip=None):
-        status = self.san_device.remove_threat(threat_ip)
+        status = self.device.remove_threat(threat_ip, True)
 
         if status is not None:
             result = json.loads(status)
