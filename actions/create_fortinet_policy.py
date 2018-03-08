@@ -1,11 +1,11 @@
 import json
 
-from lib.action import FortinetBaseAction
+from lib.san_action import FortinetBaseAction
 
 
 class CreateAddressGroup(FortinetBaseAction):
     def run(self, threat_ip=None):
-        status = self.device.add_threat(threat_ip, True)
+        status = self.device.add_threat(threat_ip)
 
         if status is not None:
             result = json.loads(status)
