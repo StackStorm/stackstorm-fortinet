@@ -1,11 +1,11 @@
 import json
 
-from lib.san_action import FortinetBaseAction
+from lib.san_action import SanFortinetBaseAction
 
 
-class DeleteAddressGroup(FortinetBaseAction):
+class DeleteAddressGroup(SanFortinetBaseAction):
     def run(self, threat_ip=None):
-        status = self.device.remove_threat(threat_ip)
+        status = self.san_device.remove_threat(threat_ip)
 
         if status is not None:
             result = json.loads(status)
