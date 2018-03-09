@@ -286,9 +286,10 @@ class FortinetApi(object):
                         self.delete_address(threat)
                 else:
                     print 'Removing threat: {0} from group: {1}'.format(threat, group)
-                    members.remove(threat)
-                    status = self.update_group(group, members)
-                    self.delete_address(threat)
+                    if threat in members:
+                        members.remove(threat)
+                        status = self.update_group(group, members)
+                        self.delete_address(threat)
         return status
 
 
