@@ -6,7 +6,7 @@ fortinet.create_policy:
         - threat_ip
 
     tasks:
-        creat_policy:
+        create_policy:
             action: fortinet.create_fortinet_policy
             input:
                 threat_ip: '<% $.threat_ip %>'
