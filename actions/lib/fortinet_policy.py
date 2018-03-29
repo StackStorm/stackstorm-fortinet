@@ -90,8 +90,7 @@ class FortinetApi(object):
         session = self.get_session_id()
         id = self.get_random_id()
         data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp",
-                            "data": [{"color": 13, "visbility": "enable", "comment": "",
-                                      "name": group, "member": members}]}],
+                            "data": [{"color": 13, "name": group, "member": members}]}],
                 "session": session, "id": id, "method": "add"}
         return self.post(data)
 
@@ -99,9 +98,8 @@ class FortinetApi(object):
         session = self.get_session_id()
         id = self.get_random_id()
         data = {"params": [{"url": "pm/config/adom/root/obj/firewall/addrgrp",
-                            "data": [{"color": 13, "visbility": "enable", "comment": "",
-                                      "name": group, "member": members}]}], "session": session,
-                "id": id, "method": "update"}
+                            "data": [{"name": group, "member": members}]}],
+                "session": session, "id": id, "method": "update"}
         return self.post(data)
 
     def get_policy_packages(self):
@@ -153,7 +151,7 @@ class FortinetApi(object):
                             "data": [{"action": "deny", "comments": comments,
                                       "dstaddr": dstAddressGroup,
                                       "dstintf": dstInterface,
-                                      "global-label": name,
+                                      "name": name,
                                       "ippool": "enable",
                                       "logtraffic": "disable",
                                       "nat": "disable",
@@ -237,7 +235,7 @@ class FortinetApi(object):
                         policies = self.get_policies(name)
                         if policies is not None:
                             for policy in policies:
-                                label = policy['global-label']
+                                label = policy['name']
                                 if label == 'DENY SIP':
                                     sip = False
                                 elif label == 'DENY DIP':
@@ -296,10 +294,10 @@ class FortinetApi(object):
 urllib3.disable_warnings()
 
 if __name__ == "__main__":
-    fortimanager = '10.65.47.23'
+    fortimanager = '10.52.204.36'
     username = 'admin'
-    password = ''
-    threat = '192.168.10.5'
+    password = 'admin123'
+    threat = '192.168.10.10'
     api = FortinetApi(fortimanager, username, password)
     status = api.add_threat(threat)
     print status
