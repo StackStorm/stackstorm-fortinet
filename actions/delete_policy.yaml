@@ -4,7 +4,7 @@ pack: fortinet
 runner_type: "mistral-v2"
 description: Delete thread IP from policy table
 enabled: true
-entry_point: workflows/delete_policy.meta.yaml
+entry_point: workflows/delete_policy.yaml
 
 parameters:
     threat_ip:
